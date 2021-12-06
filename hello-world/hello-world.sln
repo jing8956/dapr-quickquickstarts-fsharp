@@ -7,8 +7,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{69A738E7-31E1-4043-89AC-E27BE1DEC8B8}"
 	ProjectSection(SolutionItems) = preProject
 		post-loop.fsx = post-loop.fsx
-		run-app.bat = run-app.bat
-		run-post-loop.bat = run-post-loop.bat
 	EndProjectSection
 EndProject
 Global
