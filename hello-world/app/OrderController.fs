@@ -48,3 +48,12 @@ type OrderController(clientFactory: IHttpClientFactory, logger: ILogger<OrderCon
             logger.LogInformation("Successfully deleted state.")
             return x.Ok()
         }
+
+
+#if hello_kubernetes
+    [<HttpGet("ports")>]
+    member _.Ports() =
+        let daprPort = int <| System.Environment.GetEnvironmentVariable("DAPR_HTTP_PORT")
+        let daprGrpcPort = int <| System.Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")
+        {| DaprPort = daprPort; DaprGrpcPort = daprGrpcPort |}
+#endif

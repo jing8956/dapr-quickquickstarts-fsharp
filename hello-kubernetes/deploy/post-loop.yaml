@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-loop
+  labels:
+    app: post-loop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post-loop
+  template:
+    metadata:
+      labels:
+        app: post-loop
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "post-loop"
+    spec:
+      containers:
+      - name: post-loop
+        image: dapriosamples-fsharp/post-loop:latest
+        imagePullPolicy: Never

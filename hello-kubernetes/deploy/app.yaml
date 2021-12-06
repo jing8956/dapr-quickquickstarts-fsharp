@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "app"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+      - name: app
+        image: dapriosamples-fsharp/app:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Never
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  selector:
+    app: app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
