@@ -3,20 +3,23 @@ open System.Net.Http
 open System.Net.Http.Json
 open System.Threading
 
-let def v ifNull = ifNull |> Option.ofObj |> Option.defaultValue v
-let daprPort = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT ") |> def "3500"
-let daprUri = $"http://localhost:{daprPort}/v1.0/invoke/app/method/neworder" |> Uri
+let daprPort =
+    Environment.GetEnvironmentVariable("DAPR_HTTP_PORT ")
+    |> Option.ofObj |> Option.defaultValue "3500"
+let daprUrl = $"http://localhost:{daprPort}/v1.0/invoke/app/method/neworder"
 
-let inline post client message = HttpClientJsonExtensions.PostAsJsonAsync(client, "", message).Wait()
+let client = new HttpClient()
+try
+    let mutable n = 0
+    while true do
+        n <- n + 1
+        let message = {| data = {| orderId = n |} |}
 
-let rec loop n client : unit = 
-    let message = {| data = {| orderId = n |} |}
+        try
+            client.PostAsJsonAsync(daprUrl, message).Wait()
+        with | e ->
+            printfn "%s" e.Message
 
-    try
-        post client message
-    with | e -> printfn "%s" e.Message
-    
-    Thread.Sleep(TimeSpan.FromSeconds(1.0))
-    loop (n + 1) client
-
-using (new HttpClient(BaseAddress = daprUri)) (loop 1)
+        Thread.Sleep(TimeSpan.FromSeconds(1.0))
+finally
+    client.Dispose()

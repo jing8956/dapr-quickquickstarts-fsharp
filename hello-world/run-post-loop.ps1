@@ -1,1 +1,0 @@
-dapr run dotnet fsi post-loop.fsx

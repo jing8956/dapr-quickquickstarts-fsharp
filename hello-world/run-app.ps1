@@ -1,1 +1,0 @@
-dapr run --app-id app --app-port 3000 --dapr-http-port 3500 dotnet run -- --project app/app.fsproj
