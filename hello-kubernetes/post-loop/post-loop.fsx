@@ -16,7 +16,10 @@ try
         let message = {| data = {| orderId = n |} |}
 
         try
-            client.PostAsJsonAsync(daprUrl, message).Wait()
+            let response = client.PostAsJsonAsync(daprUrl, message).Result
+            if not response.IsSuccessStatusCode then
+                printfn "HTTP %d => %s" (int response.StatusCode)
+                    (response.Content.ReadAsStringAsync().Result)
         with | e ->
             printfn "%s" e.Message
 

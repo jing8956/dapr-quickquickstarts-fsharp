@@ -1,4 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /app
-COPY /hello-world/post-loop.fsx .
+COPY /post-loop.fsx .
 ENTRYPOINT ["dotnet", "fsi", "post-loop.fsx"]

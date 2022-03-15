@@ -12,9 +12,8 @@ open Microsoft.Extensions.Logging
 type OrderController(client: HttpClient, logger: ILogger<OrderController>) =
     inherit ControllerBase()
 
-    let daprPort =
-        Environment.GetEnvironmentVariable("DAPR_HTTP_PORT")
-        |> function | null -> "3500" | v -> v
+    let daprPort = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT")
+    let daprGrpcPort = Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")
     let stateStoreName = "statestore"
     let stateUrl = $"http://localhost:{daprPort}/v1.0/state/{stateStoreName}"
 
@@ -56,3 +55,21 @@ type OrderController(client: HttpClient, logger: ILogger<OrderController>) =
                 logger.LogError(e, e.Message)
                 return x.StatusCode(500, {| message = e.Message |})
         }
+
+    [<HttpGet("ports")>]
+    member _.Ports() = {| DaprPort = daprPort; DaprGrpcPort = daprGrpcPort |}
+
+(*
+[<HttpDelete("order/{id}")>]
+member x.Delete(id: string) =
+    task {
+        let key = id
+        logger.LogInformation("Invoke Delete for ID {Key}", key)
+
+        let! response = client.DeleteAsync(id)
+        if not response.IsSuccessStatusCode then failwith "Failed to delete state."
+
+        logger.LogInformation("Successfully deleted state.")
+        return x.Ok()
+    }
+*)
