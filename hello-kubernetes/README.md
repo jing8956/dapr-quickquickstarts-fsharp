@@ -1,7 +1,7 @@
 # Hello Kubernetes
 
 ![Architecture Diagram](https://raw.githubusercontent.com/dapr/quickstarts/v1.0.0/hello-kubernetes/img/Architecture_Diagram.png)
-PS：所有代码都使用 FSharp 替代
+PS：所有代码都使用 F# 替代
 
 ## 步骤1：在集群中部署 Dapr
 

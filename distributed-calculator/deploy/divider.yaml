@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: divideapp
+  labels:
+    app: divide
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: divide
+  template:
+    metadata:
+      labels:
+        app: divide
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "divideapp"
+        dapr.io/app-port: "80"
+        dapr.io/config: "appconfig"
+    spec:
+      containers:
+      - name: divide
+        image: dapriosamples-fsharp/distributed-calculator-divide:latest
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never

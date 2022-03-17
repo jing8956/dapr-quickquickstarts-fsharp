@@ -3,12 +3,11 @@
 构建一个基本的 Web 应用程序，通过调用 dapr 状态存储保存状态。
 
 ![Architecture Diagram](https://raw.githubusercontent.com/dapr/quickstarts/v1.0.0/hello-world/img/Architecture_Diagram.png)
-
-替换: Node code -> FSharp code
+PS：所有代码都使用 F# 替代
 
 ## 先决条件
 - [Docker](https://docs.docker.com/)
-- [.Net 6](https://dotnet.microsoft.com/)
+- [.Net 6 SDK](https://dotnet.microsoft.com/download/)
 
 ## 步骤1：安装 Dapr
 [教程链接](https://docs.dapr.io/getting-started/install-dapr/)
